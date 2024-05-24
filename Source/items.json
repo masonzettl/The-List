@@ -1,0 +1,17 @@
+{
+    "shelvesPerAisle": 6,
+    "aisles": [
+        {
+            "name": "Snacks",
+            "items": ["Chips", "Pretzels", "Nuts", "Crackers", "Cookies", "Popcorn"]
+        },
+        {
+            "name": "Drinks",
+            "items": ["Soda", "Water", "Sports Drink", "Seltzer", "Juice", "Energy Drink"]
+        },
+        {
+            "name": "Breakfast",
+            "items": ["Cereal", "Pancake Mix", "Syrup", "Oatmeal", "Granola", "Protein Bar"]
+        }
+    ]
+}

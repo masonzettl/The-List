@@ -1,0 +1,7 @@
+name=The List
+author=Tonus_
+description=A game about forgetting your grocery list
+bundleID=me.itstonus.the_list
+version=0.1.0
+buildNumber=2
+imagePath=SystemAssets/
