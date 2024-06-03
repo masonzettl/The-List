@@ -29,8 +29,6 @@ function Player:init(x, y, store)
     -- Initalize class variables
     self.store = store
     self.speed = 100
-    self.items = {}
-    self.items.total = 0
 end
 
 function Player:update()
@@ -116,14 +114,14 @@ function Player:interact(button)
     -- If it is a shelf, add the item to the player's table of items
     if closestSprite:isa(Shelf) then
         if button == pd.kButtonA then
-            if self.items.total >= 99 then return end
+            if GLOBAL.items.total >= 99 then return end
 
-            if self.items[closestSprite.item] == nil then
-                self.items[closestSprite.item] = 1
+            if GLOBAL.items[closestSprite.item] == nil then
+                GLOBAL.items[closestSprite.item] = 1
             else
-                self.items[closestSprite.item] += 1
+                GLOBAL.items[closestSprite.item] += 1
             end
-            self.items.total += 1
+            GLOBAL.items.total += 1
     
             -- Make the store sprite redraw to update the displayed item count
             self.store:markDirty()
@@ -131,9 +129,9 @@ function Player:interact(button)
             -- Play the item pickup sound
             itemPickupSP:play()
         elseif button == pd.kButtonB then
-            if self.items[closestSprite.item] ~= nil and self.items[closestSprite.item] > 0 then
-                self.items[closestSprite.item] -= 1
-                self.items.total -= 1
+            if GLOBAL.items[closestSprite.item] ~= nil and GLOBAL.items[closestSprite.item] > 0 then
+                GLOBAL.items[closestSprite.item] -= 1
+                GLOBAL.items.total -= 1
 
                 self.store:markDirty()
 
@@ -148,15 +146,11 @@ function Player:interact(button)
         local isMatching = true
 
         for k, v in pairs(GLOBAL.list) do
-            if self.items[k] ~= v then
+            if GLOBAL.items[k] ~= v then
                 isMatching = false
             end
         end
 
-        if isMatching then
-            SCENE_MANAGER:switchScene(GameOver, "*You got all your groceries!*")
-        else
-            SCENE_MANAGER:switchScene(GameOver, "*You forgot some things...*")
-        end
+        SCENE_MANAGER:switchScene(ShoppingList, false)
     end
 end

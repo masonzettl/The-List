@@ -11,7 +11,8 @@ import "Entities/player"
 import "Entities/shelf"
 import "Entities/checkout"
 import "Entities/sign"
-import "util"
+import "Util/saveManager"
+import "Util/util"
 
 local pd <const> = playdate
 local gfx <const> = pd.graphics
@@ -21,10 +22,12 @@ DELTATIME = 0
 GLOBAL = {}
 GLOBAL.storeData = json.decodeFile("items.json")
 
+SAVE_MANAGER:loadData()
+
 pd.display.setRefreshRate(50)
 
 SCENE_MANAGER = SceneManager()
-SCENE_MANAGER:switchScene(ShoppingList)
+SCENE_MANAGER:switchScene(ShoppingList, true)
 
 function pd.update()
 	-- Update all sprites added
@@ -39,4 +42,12 @@ function pd.update()
 
 	-- Draw FPS in bottom-left corner for debugging
 	pd.drawFPS(0, 228)
+end
+
+function pd.gameWillTerminate()
+    SAVE_MANAGER:saveData()
+end
+
+function pd.deviceWillSleep()
+	SAVE_MANAGER:saveData()
 end

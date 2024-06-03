@@ -13,3 +13,11 @@ function tableContains(table, value)
 
     return false
 end
+
+function tableCount(table)
+    local count = 0
+    for k, v in pairs(table) do
+        count += 1
+    end
+    return count
+end

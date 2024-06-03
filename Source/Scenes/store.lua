@@ -29,10 +29,9 @@ function Store:init()
     self.signs[2] = Sign(200 - #self.shelves * 64, 100, self.aisleNum, GLOBAL.storeData.aisles[self.aisleNum].name)
     self.checkout = Checkout(332, 180)
 
-    self.timerSeconds = 5
-    for k, v in pairs(GLOBAL.list) do
-       self.timerSeconds += 5
-    end
+    local itemCount = tableCount(GLOBAL.list)
+    self.timerSeconds = math.ceil(10 * math.sqrt(itemCount) + 5)
+
     self.timer = pd.timer.new(1000, function()
         self:updateCountdown()
     end)
@@ -51,12 +50,12 @@ function Store:draw(x, y, width, height)
     alarmClock:draw(8, 8)
     gfx.drawTextAligned("*" .. self.timerSeconds .. "*", 32, 24, kTextAlignment.center)
     shoppingBasket:draw(360, 8)
-    if self.player.items.total ~= 0 then
+    if GLOBAL.items.total ~= 0 then
         gfx.fillRect(373, 27, 18, 12)
         gfx.pushContext()
             gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
             gfx.setFont(itemFont)
-            gfx.drawTextAligned(self.player.items.total, 382, 29, kTextAlignment.center)
+            gfx.drawTextAligned(GLOBAL.items.total, 382, 29, kTextAlignment.center)
         gfx.popContext()
     end
 end
@@ -83,6 +82,6 @@ function Store:updateCountdown()
     self.timerSeconds -= 1
     self:markDirty()
     if self.timerSeconds <= 0 then
-        SCENE_MANAGER:switchScene(GameOver, "*You ran out of time!*")
+        SCENE_MANAGER:switchScene(ShoppingList, false)
     end
 end
